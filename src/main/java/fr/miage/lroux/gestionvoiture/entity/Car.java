@@ -42,35 +42,7 @@ public class Car {
     public Car() {
     }
 
-    /**
-     * Constructor for Car.
-     * @param brand
-     * @param model
-     * @param batteryLevel
-     * @param kilometresTravelled
-     * @param numberOfSeats
-     * @param used
-     */
-    public Car(String brand, String model, double batteryLevel, double kilometresTravelled, int numberOfSeats, boolean used) {
-        this.brand = brand;
-        this.model = model;
-        this.batteryLevel = batteryLevel;
-        this.kilometresTravelled = kilometresTravelled;
-        this.numberOfSeats = numberOfSeats;
-        this.used = used;
-    }
-
-    /**
-     * Constructor for Car with carId.
-     * @param carId
-     * @param brand
-     * @param model
-     * @param batteryLevel
-     * @param kilometresTravelled
-     * @param numberOfSeats
-     * @param used
-     */
-    public Car(long carId, String brand, String model, double batteryLevel, double kilometresTravelled, int numberOfSeats, boolean used) {
+    public Car (long carId, String brand, String model, double batteryLevel, double kilometresTravelled, int numberOfSeats, boolean used,List<Double> localisation) {
         this.carId = carId;
         this.brand = brand;
         this.model = model;
@@ -78,6 +50,7 @@ public class Car {
         this.kilometresTravelled = kilometresTravelled;
         this.numberOfSeats = numberOfSeats;
         this.used = used;
+        this.localisation = localisation; // Initialisation de la localisation GPS
     }
     public long getCarId() {
         return carId;
