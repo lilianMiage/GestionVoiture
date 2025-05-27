@@ -1,6 +1,6 @@
 services:
   mysql_db:
-    container_name: mysql_db
+    container_name: mysql_db-GestionVoiture
     image: mysql:8
     restart: always
     environment:
@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: mysecret
       MYSQL_ROOT_PASSWORD: rootpassword
     ports:
-      - "3306:3306"
+      - "3310:3306"
     networks:
       - mynetwork
     volumes:
@@ -21,7 +21,7 @@ services:
       start_period: 10s
 
   spring_app:
-    container_name: gestionCompteAPP
+    container_name: gestionVoitureAPP
     build:
       context: .
       dockerfile: Dockerfile
@@ -29,13 +29,13 @@ services:
       mysql_db:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/utilisateur?serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db-GestionVoiture:3306/utilisateur?serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: lilian
       SPRING_DATASOURCE_PASSWORD: mysecret
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
     ports:
-      - "8081:8081"
+      - "8082:8080"
     networks:
       - mynetwork
 
@@ -51,7 +51,7 @@ services:
         condition: service_healthy
     # Variables d'environnement recupéré par secret
     environment:
-      PMA_HOST: mysql_db
+      PMA_HOST: mysql_db-GestionVoiture
       MYSQL_USER: lilian
       MYSQL_PASSWORD: mysecret
       MYSQL_ROOT_PASSWORD: rootpassword
