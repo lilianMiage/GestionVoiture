@@ -52,6 +52,16 @@ public class Car {
         this.used = used;
         this.localisation = localisation; // Initialisation de la localisation GPS
     }
+
+    public Car (String brand, String model, double batteryLevel, double kilometresTravelled, int numberOfSeats, boolean used,List<Double> localisation) {
+        this.brand = brand;
+        this.model = model;
+        this.batteryLevel = batteryLevel;
+        this.kilometresTravelled = kilometresTravelled;
+        this.numberOfSeats = numberOfSeats;
+        this.used = used;
+        this.localisation = localisation; // Initialisation de la localisation GPS
+    }
     public long getCarId() {
         return carId;
     }
@@ -78,6 +88,10 @@ public class Car {
 
     public boolean isUsed() {
         return used;
+    }
+
+    public List<Double> getLocalisation() {
+        return localisation;
     }
 
     public void setCarId(long carId) {

@@ -16,16 +16,15 @@ public class ServiceCar {
     private RepoCar repoCar;
 
     // Method to add a car
-    public void createCar(Car car) {
-        repoCar.findById(car.getCarId())
-        .ifPresentOrElse(existingCar -> {
+    public Car createCar(Car car) {
+        Optional<Car> carOptional = repoCar.findById(car.getCarId());
+        if (carOptional.isPresent()) {
             throw new IllegalArgumentException("Car with ID " + car.getCarId() + " already exists.");
-        }, () -> {
-            repoCar.save(car);
-        });
+        }
+        repoCar.save(car);
+        return car;
     }
 
-    // Method to get all cars
     public List<Car> getAllCars() {
          return (List<Car>) repoCar.findAll();
     }
@@ -40,7 +39,7 @@ public class ServiceCar {
     }
 
     // Method to delete a car by ID
-    public void deleteCar(long id) {
+    public void deleteCarById(long id) {
         Optional<Car> carOptional = repoCar.findById(id);
         if (carOptional.isEmpty()) {
             throw new IllegalArgumentException("Car with ID " + id + " does not exist.");

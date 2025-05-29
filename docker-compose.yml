@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: mysecret
       MYSQL_ROOT_PASSWORD: rootpassword
     ports:
-      - "3310:3306"
+      - "3308:3306"
     networks:
       - mynetwork
     volumes:
@@ -29,7 +29,7 @@ services:
       mysql_db:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db-GestionVoiture:3306/utilisateur?serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db-GestionVoiture:3306/car?serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: lilian
       SPRING_DATASOURCE_PASSWORD: mysecret
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
