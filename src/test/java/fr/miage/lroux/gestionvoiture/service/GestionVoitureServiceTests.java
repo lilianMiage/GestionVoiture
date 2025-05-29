@@ -1,4 +1,4 @@
-package fr.miage.lroux.gestionvoiture.controller.service;
+package fr.miage.lroux.gestionvoiture.service;
 
 import fr.miage.lroux.gestionvoiture.entity.Car;
 import fr.miage.lroux.gestionvoiture.repo.RepoCar;
@@ -61,6 +61,62 @@ public class GestionVoitureServiceTests {
         assertEquals("Car with ID 1 already exists.", exception.getMessage());
         verify(repoCar).findById(1L);
         verify(repoCar, never()).save(any());
+    }
+
+    @Test
+    public void testGetCarById_WhenCarExists_ShouldReturnCar() {
+        // Arrange
+        when(repoCar.findById(1L)).thenReturn(Optional.of(car));
+
+        // Act
+        Car result = carService.getCarById(1L);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(car.getCarId(), result.getCarId());
+        verify(repoCar).findById(1L);
+    }
+
+    @Test
+    public void testGetCarById_WhenCarDoesNotExist_ShouldThrowException() {
+        // Arrange
+        when(repoCar.findById(1L)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            carService.getCarById(1L);
+        });
+
+        assertEquals("Car with ID 1 does not exist.", exception.getMessage());
+        verify(repoCar).findById(1L);
+    }
+
+    @Test
+    public void testDeleteCarById_WhenCarExists_ShouldDeleteCar() {
+        // Arrange
+        when(repoCar.findById(1L)).thenReturn(Optional.of(car));
+
+        // Act
+        carService.deleteCarById(1L);
+
+        // Assert
+        verify(repoCar).findById(1L);
+        verify(repoCar).deleteById(1L);
+    }
+
+    @Test
+    public void testDeleteCarById_WhenCarDoesNotExist_ShouldThrowException() {
+        // Arrange
+        when(repoCar.findById(1L)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            carService.deleteCarById(1L);
+        });
+
+        assertEquals("Car with ID 1 does not exist.", exception.getMessage());
+        verify(repoCar).findById(1L);
+        verify(repoCar, never()).deleteById(anyLong());
     }
 
 }
