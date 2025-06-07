@@ -22,7 +22,7 @@ public class ControllerCar {
         return serviceCar.getCarById(id);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable Long id) throws IllegalArgumentException {
         serviceCar.deleteCarById(id);
     }

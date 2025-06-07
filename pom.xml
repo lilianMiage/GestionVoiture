@@ -11,8 +11,8 @@
     <groupId>fr.miage.lroux</groupId>
     <artifactId>GestionVoiture</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Gestion Voiture</name>
-    <description>Gestion Voiture</description>
+    <name>GestionVoiture</name>
+    <description>GestionVoiture</description>
     <url/>
     <licenses>
         <license/>
