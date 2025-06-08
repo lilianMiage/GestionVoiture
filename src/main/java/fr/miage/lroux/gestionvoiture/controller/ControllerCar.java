@@ -24,7 +24,7 @@ public class ControllerCar {
         return serviceCar.getCarById(id);
     }
 
-    @GetMapping("/car")
+    @GetMapping("/cars")
     public List<Car> getVoitures() {
         return serviceCar.getAllCars();
     }
