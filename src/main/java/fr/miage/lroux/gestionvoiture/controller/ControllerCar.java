@@ -5,6 +5,8 @@ import fr.miage.lroux.gestionvoiture.service.ServiceCar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/car")
 public class ControllerCar {
@@ -20,6 +22,11 @@ public class ControllerCar {
     @GetMapping("/{id}")
     public Car getUser(@PathVariable Long id) throws IllegalArgumentException {
         return serviceCar.getCarById(id);
+    }
+
+    @GetMapping("/car")
+    public List<Car> getVoitures() {
+        return serviceCar.getAllCars();
     }
 
     @DeleteMapping("/delete/{id}")

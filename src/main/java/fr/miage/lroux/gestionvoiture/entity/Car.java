@@ -35,11 +35,25 @@ public class Car {
     @ElementCollection
     private List<Double> localisation; // localisation GPS
 
+    private long stationId;
+
     // TODO Association avec l'utilisateur
     //private User user;
 
     // Constructeur par défaut
     public Car() {
+    }
+
+    public Car (long carId, String brand, String model, double batteryLevel, double kilometresTravelled, int numberOfSeats, boolean used,List<Double> localisation, long stationId) {
+        this.carId = carId;
+        this.brand = brand;
+        this.model = model;
+        this.batteryLevel = batteryLevel;
+        this.kilometresTravelled = kilometresTravelled;
+        this.numberOfSeats = numberOfSeats;
+        this.used = used;
+        this.localisation = localisation; // Initialisation de la localisation GPS
+        this.stationId = stationId;
     }
 
     public Car (long carId, String brand, String model, double batteryLevel, double kilometresTravelled, int numberOfSeats, boolean used,List<Double> localisation) {
@@ -122,4 +136,15 @@ public class Car {
         this.used = used;
     }
 
+    public void setLocalisation(List<Double> localisation) {
+        this.localisation = localisation;
+    }
+
+    public long getStationId() {
+        return stationId;
+    }
+
+    public void setStationId(long stationId) {
+        this.stationId = stationId;
+    }
 }
