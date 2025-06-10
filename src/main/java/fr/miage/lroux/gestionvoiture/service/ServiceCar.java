@@ -25,8 +25,8 @@ public class ServiceCar {
         return car;
     }
 
-    public List<Car> getAllCars() {
-         return (List<Car>) repoCar.findAll();
+    public List<Car> getAllCarsByStationId(long stationId) {
+         return (List<Car>) repoCar.findAllByStationId(stationId);
     }
 
     // Method to get a car by ID

@@ -24,9 +24,9 @@ public class ControllerCar {
         return serviceCar.getCarById(id);
     }
 
-    @GetMapping("/cars")
-    public List<Car> getVoitures() {
-        return serviceCar.getAllCars();
+    @GetMapping("/cars/{stationId}")
+    public List<Car> getVoitures(@PathVariable Long stationId) {
+        return serviceCar.getAllCarsByStationId(stationId);
     }
 
     @DeleteMapping("/delete/{id}")
