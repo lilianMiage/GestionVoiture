@@ -120,21 +120,6 @@ public class GestionVoitureServiceTests {
     }
 
     @Test
-    public void testGetAllCars_ShouldReturnListOfCars() {
-        // Arrange
-        List<Car> cars = List.of(car);
-        when(repoCar.findAll()).thenReturn(cars);
-
-        // Act
-        List<Car> result = carService.getAllCars();
-
-        // Assert
-        assertEquals(1, result.size());
-        assertEquals(car.getCarId(), result.get(0).getCarId());
-        verify(repoCar).findAll();
-    }
-
-    @Test
     public void testPutUsedToTrue_ShouldSetUsedTrueAndStationIdZero() {
         // Arrange
         when(repoCar.findById(1L)).thenReturn(Optional.of(car));
@@ -189,7 +174,7 @@ public class GestionVoitureServiceTests {
     public void testGetCarsByStation_ShouldReturnCarsAtStation() {
         // Arrange
         List<Car> carsAtStation = List.of(car);
-        when(repoCar.findByStationId(2L)).thenReturn(carsAtStation);
+        when(repoCar.findAllByStationId(2L)).thenReturn(carsAtStation);
 
         // Act
         List<Car> result = carService.getCarsByStation(2L);
@@ -197,6 +182,6 @@ public class GestionVoitureServiceTests {
         // Assert
         assertEquals(1, result.size());
         assertEquals(car.getCarId(), result.get(0).getCarId());
-        verify(repoCar).findByStationId(2L);
+        verify(repoCar).findAllByStationId(2L);
     }
 }

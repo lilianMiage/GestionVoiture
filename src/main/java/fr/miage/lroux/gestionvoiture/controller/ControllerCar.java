@@ -44,11 +44,6 @@ public class ControllerCar {
     }
 
 
-    @GetMapping("/cars/{stationId}")
-    public List<Car> getVoitures(@PathVariable Long stationId) {
-        return serviceCar.getAllCarsByStationId(stationId);
-    }
-
     /**
      * Deletes a car by its ID.
      * @param id The ID of the car to delete.

@@ -38,7 +38,7 @@ public class ServiceCar {
     }
 
     public List<Car> getAllCarsByStationId(long stationId) {
-         return (List<Car>) repoCar.findAllByStationId(stationId);
+         return repoCar.findAllByStationId(stationId);
     }
 
     /**
@@ -117,6 +117,6 @@ public class ServiceCar {
      * @return A list of cars associated with the specified station.
      */
     public List<Car> getCarsByStation(long stationId){
-        return repoCar.findByStationId(stationId);
+        return repoCar.findAllByStationId(stationId);
     }
 }
