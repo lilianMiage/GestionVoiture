@@ -119,4 +119,69 @@ public class GestionVoitureServiceTests {
         verify(repoCar, never()).deleteById(anyLong());
     }
 
+    @Test
+    public void testPutUsedToTrue_ShouldSetUsedTrueAndStationIdZero() {
+        // Arrange
+        when(repoCar.findById(1L)).thenReturn(Optional.of(car));
+        when(repoCar.save(any(Car.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        Car result = carService.putUsedToTrue(1L);
+
+        // Assert
+        assertTrue(result.isUsed());
+        assertEquals(0L, result.getStationId());
+        verify(repoCar).findById(1L);
+        verify(repoCar).save(result);
+    }
+
+    @Test
+    public void testUpdateAfterLocation_ShouldUpdateCarFields() {
+        // Arrange
+        Car carUpdate = new Car("Porsche", "911 GT3 RS", 75.0, 1300.0, 5, true, List.of(54.0, 48.0));
+        carUpdate.setStationId(3L);
+        when(repoCar.findById(1L)).thenReturn(Optional.of(car));
+        when(repoCar.save(any(Car.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        Car result = carService.updateAfterLocation(1L, carUpdate);
+
+        // Assert
+        assertFalse(result.isUsed());
+        assertEquals(75.0, result.getBatteryLevel());
+        assertEquals(1300.0, result.getKilometresTravelled());
+        assertEquals(3L, result.getStationId());
+        verify(repoCar).findById(1L);
+        verify(repoCar).save(result);
+    }
+
+    @Test
+    public void testUpdateStationId_ShouldUpdateStationId() {
+        // Arrange
+        when(repoCar.findById(1L)).thenReturn(Optional.of(car));
+        when(repoCar.save(any(Car.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        Car result = carService.updateStationId(1L, 7L);
+
+        // Assert
+        assertEquals(7L, result.getStationId());
+        verify(repoCar).findById(1L);
+        verify(repoCar).save(result);
+    }
+
+    @Test
+    public void testGetCarsByStation_ShouldReturnCarsAtStation() {
+        // Arrange
+        List<Car> carsAtStation = List.of(car);
+        when(repoCar.findAllByStationId(2L)).thenReturn(carsAtStation);
+
+        // Act
+        List<Car> result = carService.getCarsByStation(2L);
+
+        // Assert
+        assertEquals(1, result.size());
+        assertEquals(car.getCarId(), result.get(0).getCarId());
+        verify(repoCar).findAllByStationId(2L);
+    }
 }
