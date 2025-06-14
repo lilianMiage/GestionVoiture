@@ -43,13 +43,10 @@ public class ControllerCar {
         return serviceCar.getCarById(id);
     }
 
-    /**
-     * Retrieves all cars.
-     * @return A list of all cars.
-     */
-    @GetMapping("/cars")
-    public List<Car> getVoitures() {
-        return serviceCar.getAllCars();
+
+    @GetMapping("/cars/{stationId}")
+    public List<Car> getVoitures(@PathVariable Long stationId) {
+        return serviceCar.getAllCarsByStationId(stationId);
     }
 
     /**

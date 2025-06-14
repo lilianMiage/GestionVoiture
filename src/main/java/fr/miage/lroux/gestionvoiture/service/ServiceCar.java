@@ -37,12 +37,8 @@ public class ServiceCar {
         return car;
     }
 
-    /**
-     * Retrieves all cars.
-     * @return A list of all cars.
-     */
-    public List<Car> getAllCars() {
-         return (List<Car>) repoCar.findAll();
+    public List<Car> getAllCarsByStationId(long stationId) {
+         return (List<Car>) repoCar.findAllByStationId(stationId);
     }
 
     /**
