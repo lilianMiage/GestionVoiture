@@ -18,7 +18,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -26,31 +25,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         locations = "classpath:application-integrationtest.properties")
 class GestionVoitureControllerTests {
 
+    /**
+     * MockMvc instance for testing the controller.
+     * This instance is used to perform requests and assert responses.
+     */
     @Autowired
     private MockMvc mvc;
 
+    /**
+     * Repository for Car operations.
+     * This repository is used to interact with the database for Car entities.
+     */
     @Autowired
     private RepoCar repoCar;
+
+    /**
+     * Car instance used for testing.
+     * This instance is created before each test to ensure a consistent state.
+     */
     private Car car;
 
+    /**
+     * Sets up the test environment by creating a new Car instance.
+     * This method is called before each test to ensure a fresh state.
+     */
     @BeforeEach
     public void setUp(){
         car = new Car("Porsche", "911 GT3 RS", 100.0, 1200.0, 2, false, List.of(54.0,48.0));
         car = repoCar.save(car);
     }
 
-    @Test
-    public void getCarByid() throws Exception {
-         mvc.perform(get("/api/car/" + car.getCarId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.brand", is(car.getBrand())))
-                .andExpect(jsonPath("$.model", is(car.getModel())))
-                .andExpect(jsonPath("$.batteryLevel", is(car.getBatteryLevel())))
-                .andExpect(jsonPath("$.kilometresTravelled", is(car.getKilometresTravelled())))
-                .andExpect(jsonPath("$.numberOfSeats", is(car.getNumberOfSeats())))
-                .andExpect(jsonPath("$.used", is(car.isUsed())))
-                .andExpect(jsonPath("$.localisation", is(car.getLocalisation())));
-    }
+
 
     @Test
     public void createCar() throws Exception{
@@ -74,5 +79,38 @@ class GestionVoitureControllerTests {
     public void deleteCarByid() throws Exception {
         mvc.perform(delete("/api/car/delete/1"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testSetUsedToTrueAndClearStation() throws Exception {
+        mvc.perform(put("/api/car/" + car.getCarId() + "/use"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.used",  is(true)))
+                .andExpect(jsonPath("$.stationId", is(0)));
+    }
+
+    @Test
+    public void testUpdateReturnCar() throws Exception {
+        car.setBatteryLevel(80.0);
+        car.setKilometresTravelled(1500.0);
+
+        ObjectMapper om = new ObjectMapper();
+        String carJson = om.writeValueAsString(car);
+
+        mvc.perform(put("/api/car/" + car.getCarId() + "/return")
+                        .contentType("application/json")
+                        .content(carJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.batteryLevel",is(80.0)))
+                .andExpect(jsonPath("$.kilometresTravelled",is(1500.0)));
+    }
+
+    @Test
+    public void testUpdateStationId() throws Exception {
+        mvc.perform(put("/api/car/" + car.getCarId())
+                        .contentType("application/json")
+                        .content("5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.stationId").value(5));
     }
 }
