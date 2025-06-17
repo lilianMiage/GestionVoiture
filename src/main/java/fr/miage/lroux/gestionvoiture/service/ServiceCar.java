@@ -33,6 +33,12 @@ public class ServiceCar {
         if (carOptional.isPresent()) {
             throw new IllegalArgumentException("Car with ID " + car.getCarId() + " already exists.");
         }
+        if (car.getKilometresTravelled() < 0 || car.getBatteryLevel() < 0) {
+            throw new IllegalArgumentException("Kilometres travelled and battery level must be non-negative.");
+        }
+        if(car.isUsed()) {
+            throw new IllegalArgumentException("Car cannot be created as used cars should not be created.");
+        }
         repoCar.save(car);
         return car;
     }
